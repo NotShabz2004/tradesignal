@@ -134,41 +134,20 @@ This demonstrates proficiency in:
 ## 📸 Screenshots
 
 ### Telegram Alert Interface
-![Telegram Alert Interface](assets/Screenshot 2026-02-08 215341.png)
+<img width="945" height="638" alt="Screenshot 2026-02-08 215341" src="https://github.com/user-attachments/assets/96cbc716-4033-4a49-b738-8534ac312f19" />
 *Interactive alert with feedback buttons sent directly to Telegram*
 
 ### Railway Deployment Dashboard
-![Railway Deployment](assets/Screenshot 2026-02-08 215445.png)
+<img width="1365" height="630" alt="Screenshot 2026-02-08 215445" src="https://github.com/user-attachments/assets/0163fd13-2b09-469c-ac37-a10670aaaa12" />
 *Production deployment on Railway showing active monitoring and logs*
 
 ### System Logs
-![System Logs](assets/Screenshot 2026-02-08 220505.png)
+<img width="1364" height="634" alt="Screenshot 2026-02-08 220505" src="https://github.com/user-attachments/assets/c9a2ec27-5904-451b-87a3-e58da5936df5" />
 *Autonomous operation logs showing price checks, AI decisions, and alert delivery*
 
 ### Database Schema and Sample Data
-![Database Schema and Sample Data](assets/Screenshot 2026-02-08 221307.png)
+<img width="708" height="622" alt="Screenshot 2026-02-08 221307" src="https://github.com/user-attachments/assets/178fd8c1-4dbd-4d5e-b330-afc9dbb81cac" />
 *Database structure showing tables (price_checks, alerts, decisions) with sample data*
-
-*To view the database schema and sample data, you have several options:*
-
-**Option 1: Use the built-in viewer script (Recommended)**
-```bash
-python view_database.py
-```
-This will display the schema, sample data, and statistics in a formatted view perfect for screenshots.
-
-**Option 2: Use DB Browser for SQLite (GUI)**
-1. Install [DB Browser for SQLite](https://sqlitebrowser.org/) (free, cross-platform)
-2. Open `tradesignal.db` in DB Browser
-3. Navigate to "Database Structure" tab to see schema
-4. Browse tables (`price_checks`, `alerts`, `decisions`) to see sample data
-5. Take a screenshot of the database structure and data
-
-**Option 3: Command line**
-```bash
-sqlite3 tradesignal.db ".schema"  # View schema
-sqlite3 tradesignal.db "SELECT * FROM alerts LIMIT 5;"  # View sample alerts
-```
 
 ---
 
@@ -490,7 +469,5 @@ For issues or questions:
 4. Review Railway logs if deployed
 
 ---
-
-**Built with ❤️ using AI-first development practices**
 
 **Status: 🟢 Autonomous and Running**
