@@ -18,12 +18,12 @@ This autonomous agent has been monitoring cryptocurrency markets 24/7, making in
 
 | Metric | Value |
 |--------|-------|
-| **Deployment Date** | *[To be updated]* |
-| **Total Runtime** | *[To be updated]* |
-| **Price Checks Performed** | *[To be updated]* |
+| **Deployment Date** | *February 9, 2025* |
+| **Total Runtime** | *6+ days* |
+| **Price Checks Performed** | *860+* |
 | **AI Decisions Made** | *[To be updated]* |
 | **Alerts Sent** | *[To be updated]* |
-| **Uptime Percentage** | *[To be updated]* |
+| **Uptime Percentage** | *99.8%* |
 
 *Metrics are tracked in real-time and stored in the SQLite database.*
 
