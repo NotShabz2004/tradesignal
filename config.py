@@ -23,7 +23,7 @@ CHECK_INTERVAL_MINUTES = 10
 PRICE_CHANGE_THRESHOLD = 0.1  # Alert if price changes by more than 0.1% (testing mode - triggers on almost any movement)
 
 # Gemini AI Configuration
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 GEMINI_MAX_RETRIES = 3
 GEMINI_TIMEOUT = 30
 
