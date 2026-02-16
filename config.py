@@ -20,7 +20,7 @@ CURRENCY = "usd"
 
 # Monitoring Configuration
 CHECK_INTERVAL_MINUTES = 10
-PRICE_CHANGE_THRESHOLD = 0.1  # Alert if price changes by more than 0.1% (testing mode - triggers on almost any movement)
+PRICE_CHANGE_THRESHOLD = 3.0
 
 # Gemini AI Configuration
 GEMINI_MODEL = "gemini-2.5-flash-lite"
