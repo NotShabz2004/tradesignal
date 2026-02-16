@@ -1,13 +1,14 @@
 """
-AI Analyzer using Google Gemini API
+AI Analyzer using Google Gemini API (Updated for 2026 SDK)
 Makes intelligent decisions about when to alert users
 """
 import json
 import logging
 import time
 from typing import Dict, Optional, List
-import google.generativeai as genai
-from config import GEMINI_API_KEY, GEMINI_MODEL, GEMINI_MAX_RETRIES, GEMINI_TIMEOUT
+from google import genai
+from google.genai import types
+from config import GEMINI_API_KEY, GEMINI_MODEL, GEMINI_MAX_RETRIES
 
 logger = logging.getLogger(__name__)
 
@@ -17,9 +18,9 @@ class AIAnalyzer:
         if not GEMINI_API_KEY:
             raise ValueError("GEMINI_API_KEY is not set in configuration")
         
-        genai.configure(api_key=GEMINI_API_KEY)
-        self.model = genai.GenerativeModel(GEMINI_MODEL)
-        logger.info("AI Analyzer initialized with Gemini")
+        # NEW: Initialize the Client instead of configuring a global object
+        self.client = genai.Client(api_key=GEMINI_API_KEY)
+        logger.info(f"AI Analyzer initialized with model: {GEMINI_MODEL}")
     
     def _create_prompt(self, prices: Dict[str, float], changes_10min: Dict[str, float],
                       changes_24h: Dict[str, float], feedback_history: List[Dict]) -> str:
@@ -72,10 +73,6 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
                            feedback_history: List[Dict]) -> Optional[Dict]:
         """
         Ask Gemini AI if we should alert the user
-        
-        Returns:
-            Dict with keys: should_alert, coin, reason, confidence, message
-            None if API call fails
         """
         prompt = self._create_prompt(prices, changes_10min, changes_24h, feedback_history)
         
@@ -83,18 +80,21 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
             try:
                 logger.debug(f"Calling Gemini API (attempt {attempt + 1}/{GEMINI_MAX_RETRIES})")
                 
-                response = self.model.generate_content(
-                    prompt,
-                    generation_config={
-                        "temperature": 0.7,
-                        "max_output_tokens": 500,
-                    }
+                # NEW: Updated call syntax for google-genai SDK
+                response = self.client.models.generate_content(
+                    model=GEMINI_MODEL,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0.7,
+                        max_output_tokens=500,
+                        response_mime_type="application/json" # Enforces JSON output!
+                    )
                 )
                 
-                # Extract JSON from response
+                # Extract text
                 response_text = response.text.strip()
                 
-                # Remove markdown code blocks if present
+                # Clean up any potential markdown (though response_mime_type helps prevent this)
                 if response_text.startswith("```"):
                     response_text = response_text.split("```")[1]
                     if response_text.startswith("json"):
@@ -123,7 +123,6 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
                 
             except json.JSONDecodeError as e:
                 logger.warning(f"Failed to parse JSON response (attempt {attempt + 1}): {e}")
-                logger.debug(f"Response text: {response_text[:200]}")
                 if attempt < GEMINI_MAX_RETRIES - 1:
                     time.sleep(1)
                     continue
@@ -132,10 +131,9 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
             except Exception as e:
                 logger.error(f"Error calling Gemini API (attempt {attempt + 1}): {e}")
                 if attempt < GEMINI_MAX_RETRIES - 1:
-                    time.sleep(2 ** attempt)  # Exponential backoff
+                    time.sleep(2 ** attempt)
                     continue
                 return None
         
         logger.error("Failed to get response from Gemini after all retries")
         return None
-
